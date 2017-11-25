@@ -47,13 +47,13 @@ class SQLiteDataAdapter():
     def database(self):
         return self._database
 
-    def get_connection(self):
+    def _get_connection(self):
         return SQLiteDataAdapterConnection(self)
 
     # Temporary hardcoded implementation
     def create_table(self, table_name):
         print("Creating table: {0}".format(table_name))
-        with self.get_connection() as conn:
+        with self._get_connection() as conn:
             conn.execute_query("CREATE TABLE {0} (id INTEGER PRIMARY KEY, x REAL, y REAL)".format(table_name))
 
     def create_test_table(self, table_name, number_of_rows):
@@ -69,22 +69,22 @@ class SQLiteDataAdapter():
             i += 1
 
     def insert(self, table_name, column_dict):
-        with self.get_connection() as conn:
+        with self._get_connection() as conn:
             conn.execute_insert_query(table_name, column_dict)
 
     def get_tables(self):
-        with self.get_connection() as conn:
+        with self._get_connection() as conn:
             result = conn.execute_query("SELECT * FROM sqlite_master WHERE type='table' LIMIT 1;")
         tables = [table[1] for table in result]
         return tables
 
     def get_table_schema(self, table_name):
-        with self.get_connection() as conn:
+        with self._get_connection() as conn:
             query = "PRAGMA table_info({0})".format(table_name)
             result = conn.execute_query(query)
         return result[0]
 
     def execute_query(self, query):
-        with self.get_connection() as conn:
+        with self._get_connection() as conn:
             rows = conn.execute_query(query)
         return rows
