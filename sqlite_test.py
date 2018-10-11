@@ -1,4 +1,4 @@
-from sqlite_utils import SQLiteDataAdapter, SQLiteDataAdapterConnection
+from sqlite_utils import SQLiteDataAdapter, SQLiteDataAdapterConnection, Query
 from matplotlib import pyplot as plt
 import time
 
@@ -47,5 +47,12 @@ def main():
 
     plt.show()
 
+def query_test():
+    q = Query("test")
+    q.select(['x', 'z'])
+    
+    print(q)
+
 if __name__ == "__main__":
-    main()
+    #main()
+    query_test()

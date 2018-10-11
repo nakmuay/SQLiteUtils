@@ -3,6 +3,48 @@ from contextlib import closing
 import random as random
 import math
 
+class SelectClause():
+
+    def __init__(self, columns):
+        self._columns = columns
+
+    def __str__(self):
+        columns_str = ", ".join([c for c in self._columns])
+        return "SELECT {0}".format(columns_str)
+
+class LtPredicate():
+
+    def __init__(self, column, value):
+        self._column = column
+        self._value = value
+
+    def __str__(self):
+        return "{0} < {1}".format(self._column, self._value)
+        
+
+class Query():
+
+    def __init__(self, table_name):
+        self._table_name = table_name
+        self._select_clause = None
+        self._where_clause = None
+
+    def __str__(self):
+        query = str(self._select_clause)
+
+        print(LtPredicate('x', 60))
+
+        """
+        query = "SELECT x, y from {0} \
+                 WHERE x > 51 AND \
+                 y > 0.0 AND \
+                 y < 0.85".format(self._table_name)
+        """
+        return query
+
+    def select(self, columns):
+        self._select_clause = SelectClause(columns)
+
 class SQLiteDataAdapterConnection():
 
     def __init__(self, adapter):
